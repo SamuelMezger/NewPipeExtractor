@@ -13,16 +13,20 @@ import org.schabi.newpipe.extractor.exceptions.PaidContentException;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.exceptions.PrivateContentException;
 import org.schabi.newpipe.extractor.exceptions.YoutubeMusicPremiumContentException;
+import org.schabi.newpipe.extractor.localization.DateWrapper;
 import org.schabi.newpipe.extractor.services.DefaultStreamExtractorTest;
 import org.schabi.newpipe.extractor.services.youtube.YoutubeParsingHelper;
 import org.schabi.newpipe.extractor.stream.Description;
 import org.schabi.newpipe.extractor.stream.StreamExtractor;
 import org.schabi.newpipe.extractor.stream.StreamSegment;
 import org.schabi.newpipe.extractor.stream.StreamType;
+import org.schabi.newpipe.extractor.stream.TrackMetadata;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -369,6 +373,150 @@ public class YoutubeStreamExtractorDefaultTest {
             ));
         }
         @Override public boolean expectedUploaderVerified() { return true; }
+        // @formatter:on
+    }
+
+    public static class YTMusicTrackMetadataTest extends DefaultStreamExtractorTest {
+        private static final String ID = "nEipxSHZEIs";
+        private static final String URL = BASE_URL + ID;
+        private static StreamExtractor extractor;
+
+        @BeforeClass
+        public static void setUp() throws Exception {
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "ytMusicMetadata"));
+            extractor = YouTube.getStreamExtractor(URL);
+            extractor.fetchPage();
+        }
+
+        // @formatter:off
+        @Override public StreamExtractor extractor() { return extractor; }
+        @Override public StreamingService expectedService() { return YouTube; }
+        @Override public String expectedName() { return "The Love Club"; }
+        @Override public String expectedId() { return ID; }
+        @Override public String expectedUrlContains() { return BASE_URL + ID; }
+        @Override public String expectedOriginalUrlContains() { return URL; }
+
+        @Override public StreamType expectedStreamType() { return StreamType.VIDEO_STREAM; }
+        @Override public String expectedUploaderName() { return "Lorde"; }
+        @Override public String expectedUploaderUrl() { return "https://www.youtube.com/channel/UCOxhwqKKlVq_NaD0LVffGuw"; }
+        @Override public List<String> expectedDescriptionContains() {
+            return Arrays.asList("Provided to YouTube by Universal Music Group",
+                    "Personnel, Mixer: Joel Little");
+        }
+        @Override public boolean expectedUploaderVerified() { return true; }
+        @Override public long expectedLength() { return 201; }
+        @Override public long expectedViewCountAtLeast() { return 1576672; }
+        @Nullable @Override public String expectedUploadDate() { return "2018-07-25 00:00:00.000"; }
+        @Nullable @Override public String expectedTextualUploadDate() { return "2018-07-25"; }
+        @Override public long expectedLikeCountAtLeast() { return 25986; }
+        @Override public long expectedDislikeCountAtLeast() { return 3260; }
+        @Override public int expectedStreamSegmentsCount() { return 0; }
+        @Override public boolean expectedHasMusicInfos() { return true; }
+        @Override public List<TrackMetadata> expectedMusicInfos() {
+            return Arrays.asList(
+                    new TrackMetadata("The Love Club", "Lorde", "Pure Heroine",
+                            new DateWrapper(LocalDate.parse("2013-01-01").atStartOfDay().atOffset(ZoneOffset.UTC)))
+            );
+        }
+        @Override public boolean expectedHasSubtitles() { return false; }
+        // @formatter:on
+    }
+
+    public static class MusicInVideoMetadataTestSingle extends DefaultStreamExtractorTest {
+        private static final String ID = "JQGRg8XBnB4";
+        private static final String URL = BASE_URL + ID;
+        private static StreamExtractor extractor;
+
+        @BeforeClass
+        public static void setUp() throws Exception {
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "musicInVideoMetadataSingle"));
+            extractor = YouTube.getStreamExtractor(URL);
+            extractor.fetchPage();
+        }
+
+        // @formatter:off
+        @Override public StreamExtractor extractor() { return extractor; }
+        @Override public StreamingService expectedService() { return YouTube; }
+        @Override public String expectedName() { return "[MV] MOMOLAND (모모랜드) _ BBoom BBoom (뿜뿜)"; }
+        @Override public String expectedId() { return ID; }
+        @Override public String expectedUrlContains() { return BASE_URL + ID; }
+        @Override public String expectedOriginalUrlContains() { return URL; }
+
+        @Override public StreamType expectedStreamType() { return StreamType.VIDEO_STREAM; }
+        @Override public String expectedUploaderName() { return "1theK (원더케이)"; }
+        @Override public String expectedUploaderUrl() { return "https://www.youtube.com/channel/UCweOkPb1wVVH0Q0Tlj4a5Pw"; }
+        @Override public List<String> expectedDescriptionContains() {
+            return Arrays.asList("The best rookie MOMOLAND",
+                    "English subtitles are now available");
+        }
+        @Override public boolean expectedUploaderVerified() { return true; }
+        @Override public long expectedLength() { return 210; }
+        @Override public long expectedViewCountAtLeast() { return 494455598; }
+        @Nullable @Override public String expectedUploadDate() { return "2018-01-03 00:00:00.000"; }
+        @Nullable @Override public String expectedTextualUploadDate() { return "2018-01-03"; }
+        @Override public long expectedLikeCountAtLeast() { return 3700000; }
+        @Override public long expectedDislikeCountAtLeast() { return 291832; }
+        @Override public int expectedStreamSegmentsCount() { return 0; }
+        @Override public boolean expectedHasMusicInfos() { return true; }
+        @Override public List<TrackMetadata> expectedMusicInfos() {
+            TrackMetadata trackMetadata = new TrackMetadata();
+            trackMetadata.setTitle("BBoom BBoom(뿜뿜) inst");
+            trackMetadata.setArtist("MOMOLAND(모모랜드)");
+            trackMetadata.setAlbum("GREAT!");
+            return Arrays.asList(trackMetadata);
+        }
+        @Override public boolean expectedHasSubtitles() { return true; }
+        // @formatter:on
+    }
+
+    public static class MusicInVideoMetadataTestMultiple extends DefaultStreamExtractorTest {
+        private static final String ID = "Sqn5-zXUCps";
+        private static final String URL = BASE_URL + ID;
+        private static StreamExtractor extractor;
+
+        @BeforeClass
+        public static void setUp() throws Exception {
+            YoutubeParsingHelper.resetClientVersionAndKey();
+            NewPipe.init(new DownloaderFactory().getDownloader(RESOURCE_PATH + "musicInVideoMetadataMultiple"));
+            extractor = YouTube.getStreamExtractor(URL);
+            extractor.fetchPage();
+        }
+
+        // @formatter:off
+        @Override public StreamExtractor extractor() { return extractor; }
+        @Override public StreamingService expectedService() { return YouTube; }
+        @Override public String expectedName() { return "wistful"; }
+        @Override public String expectedId() { return ID; }
+        @Override public String expectedUrlContains() { return BASE_URL + ID; }
+        @Override public String expectedOriginalUrlContains() { return URL; }
+
+        @Override public StreamType expectedStreamType() { return StreamType.VIDEO_STREAM; }
+        @Override public String expectedUploaderName() { return "Jo-ha-Q"; }
+        @Override public String expectedUploaderUrl() { return "https://www.youtube.com/channel/UCrI--yLLfrN8TPNVBRbW-bA"; }
+        @Override public List<String> expectedDescriptionContains() {
+            return Arrays.asList("Art by Yoshiyuki Sadamoto");
+        }
+        @Override public boolean expectedUploaderVerified() { return false; }
+        @Override public long expectedLength() { return 2865; }
+        @Override public long expectedViewCountAtLeast() { return 15083; }
+        @Nullable @Override public String expectedUploadDate() { return "2019-12-06 00:00:00.000"; }
+        @Nullable @Override public String expectedTextualUploadDate() { return "2019-12-06"; }
+        @Override public long expectedLikeCountAtLeast() { return 1000; }
+        @Override public long expectedDislikeCountAtLeast() { return 0; }
+        @Override public int expectedStreamSegmentsCount() { return 0; }
+        @Override public boolean expectedHasMusicInfos() { return true; }
+        @Override public List<TrackMetadata> expectedMusicInfos() {
+            return Arrays.asList(
+                    new TrackMetadata("03 幻の夢", "斉藤和義", "素敵な匂いの世界", null),
+                    new TrackMetadata("Love Was Really Gone (2018 Remaster)", "Makoto Matsushita", "Love Was Really Gone", null),
+                    new TrackMetadata("Half Moon", null, null, null),
+                    new TrackMetadata("M11 re-arrange and re-mix", "ARIANNE", "Shiro SAGISU outtakes from Evangelion", null),
+                    new TrackMetadata("Kuki -Stem-", "Sheena Ringo, Nako Saito", null, null)
+            );
+        }
+        @Override public boolean expectedHasSubtitles() { return false; }
         // @formatter:on
     }
 

@@ -315,6 +315,12 @@ public class PeertubeStreamExtractor extends StreamExtractor {
         return Collections.emptyList();
     }
 
+    @Nonnull
+    @Override
+    public List<TrackMetadata> getMusicInfos() {
+        return Collections.emptyList();
+    }
+
     private String getRelatedStreamsUrl(final List<String> tags) throws UnsupportedEncodingException {
         final String url = baseUrl + PeertubeSearchQueryHandlerFactory.SEARCH_ENDPOINT;
         final StringBuilder params = new StringBuilder();

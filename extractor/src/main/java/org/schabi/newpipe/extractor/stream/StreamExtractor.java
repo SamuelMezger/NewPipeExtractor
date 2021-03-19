@@ -510,4 +510,16 @@ public abstract class StreamExtractor extends Extractor {
      */
     @Nonnull
     public abstract List<MetaInfo> getMetaInfo() throws ParsingException;
+
+
+    /**
+     * The list of track metadata of songs appearing in the stream.
+     * It will mostly contain no or one track but sometimes more (e.g. mixes).
+     * If there is no track appearing or it is not known you can simply return an empty list.
+     *
+     * @return the list of tracks appearing in the stream or an empty list.
+     * @throws ParsingException
+     */
+    @Nonnull
+    public abstract List<TrackMetadata> getMusicInfos() throws ParsingException;
 }

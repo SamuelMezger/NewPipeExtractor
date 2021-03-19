@@ -302,4 +302,10 @@ public class MediaCCCLiveStreamExtractor extends StreamExtractor {
     public List<MetaInfo> getMetaInfo() {
         return Collections.emptyList();
     }
+
+    @Nonnull
+    @Override
+    public List<TrackMetadata> getMusicInfos() {
+        return Collections.emptyList();
+    }
 }

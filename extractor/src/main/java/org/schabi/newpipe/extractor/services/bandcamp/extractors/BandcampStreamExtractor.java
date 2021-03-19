@@ -340,4 +340,10 @@ public class BandcampStreamExtractor extends StreamExtractor {
     public List<MetaInfo> getMetaInfo() throws ParsingException {
         return Collections.emptyList();
     }
+
+    @Nonnull
+    @Override
+    public List<TrackMetadata> getMusicInfos() {
+        return Collections.emptyList();
+    }
 }

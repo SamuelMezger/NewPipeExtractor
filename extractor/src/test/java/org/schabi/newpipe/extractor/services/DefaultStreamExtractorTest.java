@@ -12,6 +12,7 @@ import org.schabi.newpipe.extractor.stream.StreamInfoItemsCollector;
 import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.extractor.stream.SubtitlesStream;
 import org.schabi.newpipe.extractor.stream.VideoStream;
+import org.schabi.newpipe.extractor.stream.TrackMetadata;
 
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
@@ -74,6 +75,8 @@ public abstract class DefaultStreamExtractorTest extends DefaultExtractorTest<St
     public String expectedSupportInfo() { return ""; } // default: no support info available
     public int expectedStreamSegmentsCount() { return -1; } // return 0 or greater to test (default is -1 to ignore)
     public List<MetaInfo> expectedMetaInfo() throws MalformedURLException { return Collections.emptyList(); } // default: no metadata info available
+    public boolean expectedHasMusicInfos() {return false;}
+    public List<TrackMetadata> expectedMusicInfos() {return Collections.emptyList();}
 
     @Test
     @Override
@@ -435,6 +438,18 @@ public abstract class DefaultStreamExtractorTest extends DefaultExtractorTest<St
                 assertTrue(urls.contains(expectedUrl));
             }
         }
+    }
 
+    @Test
+    public void testTrackInfo() throws Exception {
+        final List<TrackMetadata> trackMetadata = extractor().getMusicInfos();
+        assertNotNull(trackMetadata);
+
+        if (expectedHasMusicInfos()) {
+            assertFalse(trackMetadata.isEmpty());
+            assertEquals(trackMetadata, expectedMusicInfos());
+        } else {
+            assertTrue(trackMetadata.isEmpty());
+        }
     }
 }
