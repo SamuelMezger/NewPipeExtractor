@@ -881,7 +881,7 @@ public class YoutubeParsingHelper {
         }
     }
 
-    public static List<TrackMetadata> getTrackInfosFromMetadataRows(JsonArray metadataRows) throws ParsingException {
+    public static List<TrackMetadata> getTracksFromMusicInThisVideoSection(JsonArray metadataRows) throws ParsingException {
         ArrayList<TrackMetadata> musicTracks = new ArrayList<>();
         TrackMetadata trackMetadata = new TrackMetadata();
 
@@ -897,13 +897,9 @@ public class YoutubeParsingHelper {
                     case "Artist": trackMetadata.setArtist(value); break;
                     case "Album": trackMetadata.setAlbum(value); break;
                 }
-                if (metadataRowRenderer.getBoolean("hasDividerLine")) {  // start of new Track
-                    if (!trackMetadata.isEmpty()) {
-                        musicTracks.add(trackMetadata);
-                        trackMetadata = new TrackMetadata();
-                    } else {
-                        System.out.println("this shouldn't happen");
-                    }
+                if (metadataRowRenderer.getBoolean("hasDividerLine") && !trackMetadata.isEmpty()) {  // start of new Track
+                    musicTracks.add(trackMetadata);
+                    trackMetadata = new TrackMetadata();
                 }
             }
         }

@@ -242,7 +242,7 @@ public class YoutubeStreamExtractor extends StreamExtractor {
             // Try to find metadata in "Music in this video" section
             final JsonArray metadataRows = getVideoSecondaryInfoRenderer()
                     .getObject("metadataRowContainer").getObject("metadataRowContainerRenderer").getArray("rows");
-            return YoutubeParsingHelper.getTrackInfosFromMetadataRows(metadataRows);
+            return YoutubeParsingHelper.getTracksFromMusicInThisVideoSection(metadataRows);
         }
     }
 
