@@ -447,7 +447,7 @@ public abstract class DefaultStreamExtractorTest extends DefaultExtractorTest<St
 
         if (expectedHasMusicInfos()) {
             assertFalse(trackMetadata.isEmpty());
-            assertEquals(trackMetadata, expectedMusicInfos());
+            assertEquals(expectedMusicInfos(), trackMetadata);
         } else {
             assertTrue(trackMetadata.isEmpty());
         }

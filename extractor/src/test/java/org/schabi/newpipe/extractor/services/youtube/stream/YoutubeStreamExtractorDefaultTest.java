@@ -466,6 +466,11 @@ public class YoutubeStreamExtractorDefaultTest {
             );
         }
         @Override public boolean expectedHasSubtitles() { return false; }
+        @Override public String expectedLicence() { return YOUTUBE_LICENCE; }
+        @Override public String expectedCategory() { return "Music"; }
+        @Override public List<String> expectedTags() {
+            return Arrays.asList("Lorde", "Pure Heroine", "The Love Club", "ロード");
+        }
         // @formatter:on
     }
 
@@ -514,6 +519,13 @@ public class YoutubeStreamExtractorDefaultTest {
             return Arrays.asList(trackMetadata);
         }
         @Override public boolean expectedHasSubtitles() { return true; }
+        @Override public String expectedLicence() { return YOUTUBE_LICENCE; }
+        @Override public String expectedCategory() { return "Music"; }
+        @Override public List<String> expectedTags() {
+        return Arrays.asList("1theK", "BBoom BBoom", "Kpop", "MOMOLAND", "MV", "Teaser", "hallyu", "idol", "loen",
+                "new", "song", "アイドル", "ケーポップ", "ミュージック", "ミュージックビデオ", "ロエン", "韓国", "韓国の歌", "韓流",
+                "로엔", "모모랜드", "뮤비", "뿜뿜", "신곡", "아이돌", "원더케이", "주이", "트로피카나", "티져", "한류");
+        }
         // @formatter:on
     }
 
@@ -557,12 +569,18 @@ public class YoutubeStreamExtractorDefaultTest {
             return Arrays.asList(
                     new TrackMetadata("03 幻の夢", "斉藤和義", "素敵な匂いの世界", null),
                     new TrackMetadata("Love Was Really Gone (2018 Remaster)", "Makoto Matsushita", "Love Was Really Gone", null),
-                    new TrackMetadata("Half Moon", null, null, null),
+                    new TrackMetadata("Half Moon", "岩崎　宏美", null, null),
                     new TrackMetadata("M11 re-arrange and re-mix", "ARIANNE", "Shiro SAGISU outtakes from Evangelion", null),
                     new TrackMetadata("Kuki -Stem-", "Sheena Ringo, Nako Saito", null, null)
             );
         }
         @Override public boolean expectedHasSubtitles() { return false; }
+        @Override public String expectedLicence() { return YOUTUBE_LICENCE; }
+        @Override public String expectedCategory() { return "Music"; }
+        @Override public List<String> expectedTags() {
+            return Arrays.asList("Asuka", "Evangelion", "J-pop", "Japanese jazz", "Mamiya Takako", "Mariya Takeuchi",
+                    "Sheena Ringo", "Tatsuro Yamashita", "chill", "city pop", "jazz", "mix", "sad");
+        }
         // @formatter:on
     }
 
